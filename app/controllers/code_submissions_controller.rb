@@ -1,4 +1,4 @@
-require 'services/ncss2csv'
+require 'services/metrics_processor'
 
 class CodeSubmissionsController < ApplicationController
   def create  
@@ -7,8 +7,6 @@ class CodeSubmissionsController < ApplicationController
 
   def show
     folder = "public/Files-Java-9FD86"
-    metrics_stream = open("|lib/javancss/bin/javancss -recursive -all -xml #{folder}").read()
-
-    @metrics = NcssFileProcessor.new(metrics_stream).get_metrics()
+    @metrics = MetricsProcessor.new(folder).get_metrics()
   end 
 end
