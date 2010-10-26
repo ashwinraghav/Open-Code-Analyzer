@@ -1,0 +1,13 @@
+Upload your code and be ready to be judged
+<% unless flash[:error].blank? %>
+<div class="error">
+<%= flash[:error] %>
+</div>
+<% end %>
+
+<% form_for @code_submission, :url => code_submissions_path, :html =>  {:method =>"post", :name => "uploadCode"   } do |code_submission| %>
+
+<p><label for="upload_file">Select File</label> : 
+<%= file_field 'upload', 'datafile' %></p>
+<%= submit_tag "Upload code" %>
+<% end %>
