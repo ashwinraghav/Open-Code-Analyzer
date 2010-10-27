@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'nokogiri'
 
-class NcssFileProcessor
+class MetricsProcessor
 
   METRICS = { "NOC" => "Number of classes",
               "NOM" =>"Number of methods",
@@ -9,11 +9,13 @@ class NcssFileProcessor
               "CC" => "Cyclomatic complexity",
               "CCmax" => "Maximum cyclomatic complexity" }
 
-  def initialize(file)
-    @doc = Nokogiri::XML(file)
+  def initialize(folder)
+    @folder = folder
   end
   
   def get_metrics()
+    stream = open("|lib/javancss/bin/javancss -recursive -all -xml #{@folder}").read()
+    @doc = Nokogiri::XML(stream)
     METRICS.keys.collect{ |m| [METRICS[m], send("get_#{m.downcase}")] }
   end
   

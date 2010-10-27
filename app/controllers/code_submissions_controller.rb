@@ -1,14 +1,18 @@
-require 'services/ncss2csv'
+require 'services/metrics_processor'
 
 class CodeSubmissionsController < ApplicationController
-  def create  
-    # here we shall add the code submission then redirect and show the metrics
+  ZIP_FILES_ONLY = "Only files with a .zip extension are permitted"
+  def create
+    if params[:upload] =~ /\.zip$/
+      redirect_to code_submission_path(1)
+    else
+      flash[:error] = ZIP_FILES_ONLY
+      render :action => :new
+    end
   end
 
   def show
     folder = "public/Files-Java-9FD86"
-    metrics_stream = open("|lib/javancss/bin/javancss -recursive -all -xml #{folder}").read()
-
-    @metrics = NcssFileProcessor.new(metrics_stream).get_metrics()
+    @metrics = MetricsProcessor.new(folder).get_metrics()
   end 
 end
