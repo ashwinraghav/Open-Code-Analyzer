@@ -4,7 +4,8 @@ class CodeSubmissionsController < ApplicationController
   before_filter :create_code_submissions_request, :only => [:create]
 
   def create
-    if @code_submission_request.valid?
+
+    if @code_submission_request.save params[:upload]
       redirect_to code_submission_path(1)
     else
       flash.now[:error] = @code_submission_request.errors[:upload]
@@ -13,7 +14,7 @@ class CodeSubmissionsController < ApplicationController
   end
 
   def new
-    @code_submission_request = CodeSubmissionRequest.new
+    @code_submission_request = CodeSubmission.new
   end
 
   def show
@@ -23,6 +24,7 @@ class CodeSubmissionsController < ApplicationController
 
   private
   def create_code_submissions_request
-    @code_submission_request = CodeSubmissionRequest.new(params[:code_submission_request])
+    file_name =  params[:upload]['datafile'].original_filename
+    @code_submission_request = CodeSubmission.new({:upload => file_name})
   end
 end
