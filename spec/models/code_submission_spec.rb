@@ -45,4 +45,15 @@ describe CodeSubmission do
 
   end
 
+
+  it "should return the folder that the zip file was extracted into" do
+    CodeSubmission.any_instance.expects(:unzip_file).returns(true)
+    params = {:file_name_on_client => "this_is_a_zip_file.zip", :data_file => mock("data_file", :read => "")}
+    request = CodeSubmission.new(params)
+    request.should_receive(:id).at_least(1).times.and_return("some_id")
+    request.save
+
+    request.extracted_folder.should == CodeSubmission::DIRECTORY + "some_id"
+  end
+
 end
