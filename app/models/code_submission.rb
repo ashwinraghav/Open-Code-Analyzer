@@ -1,17 +1,15 @@
 class CodeSubmission < ActiveRecord::Base
   ZIP_FILES_ONLY = "Only files with a .zip extension are permitted"
-  attr_accessor :upload
-  validates_format_of :upload, :with => /\.zip$/, :message => ZIP_FILES_ONLY
+  DIRECTORY = "public/data"
 
-  def save (uploaded_file_params)
-    @upload_params = uploaded_file_params
-    super
-  end
+
+  attr_accessor :file_name_on_client, :data_file
+
+  validates_format_of :file_name_on_client, :with => /\.zip$/, :message => ZIP_FILES_ONLY
 
   def after_save
-    me =  @upload_params['datafile'].original_filename
-    directory = "public/data"
-    path = File.join(directory, id.to_s + ".zip")
-    File.open(path, "wb") { |f| f.write(@upload_params['datafile'].read) }
+    path = File.join(DIRECTORY, id.to_s + ".zip")
+    File.open(path, "wb") { |f| f.write(@data_file.read) }
   end
+
 end
