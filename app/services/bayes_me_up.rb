@@ -1,13 +1,3 @@
-class Array
-  def sum
-    self.inject(& :+)
-  end
-
-  def average
-    self.sum / self.size
-  end
-end
-
 class BayesMeUp
   include Statistics
 
@@ -53,7 +43,7 @@ class BayesMeUp
 
   def variance(category, attribute)
     mean = mean_for(category, attribute)
-    numerator = training_data[category].map { |item| (item[attribute] - mean) ** 2 }.sum
+    numerator = training_data[category].map { |item| (item[attribute] - mean) ** 2 }.inject(&:+)
     numerator / (training_data[category].size-1)
   end
 end
