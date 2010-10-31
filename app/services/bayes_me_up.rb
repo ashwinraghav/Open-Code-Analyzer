@@ -5,8 +5,8 @@ class BayesMeUp
   # b = BayesMeUp.new
   # b.train({:height => 6, :weight => 200, :foot => 10}, :male)
   # b.train({:height => 5.72, :weight => 120, :foot => 6}, :female)
-  def train(hash, category)
-    (training_data[category] ||= []) << hash
+  def train(training_data_point, category)
+    (training_data[category] ||= []) << training_data_point
   end
 
   #
