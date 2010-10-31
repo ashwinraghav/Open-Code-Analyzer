@@ -42,8 +42,6 @@ class BayesMeUp
   end
 
   def variance(category, attribute)
-    mean = mean_for(category, attribute)
-    numerator = training_data[category].map { |item| (item[attribute] - mean) ** 2 }.inject(&:+)
-    numerator / (training_data[category].size-1)
+    sample_variance(training_data[category].map { |item| item[attribute]}, mean_for(category, attribute))
   end
 end

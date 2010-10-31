@@ -6,6 +6,10 @@ module Statistics
   end
 
   def mean(values)
-    values.inject(&:+) / values.size
+    values.inject(& :+) / values.size
+  end
+
+  def sample_variance(values, mean)
+    values.map { |item| (item - mean) ** 2 }.inject(& :+) / (values.size - 1)
   end
 end
