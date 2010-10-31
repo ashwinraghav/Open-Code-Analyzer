@@ -14,12 +14,9 @@ describe BayesMeUp do
       bayes.train(female, :female)
     end
 
-    p bayes.gaussianify
-
     prediction = bayes.nostradamus({:height => 6, :weight =>130, :foot => 8})
-    prediction[:male].should == 6.1984e-09
-    prediction[:female].should == 5.3778e-05
-
+    prediction[:male].should be_close(6.19707184387809e-09, 0.0000000001)
+    prediction[:female].should be_close(0.000537790918363002, 0.000000001)
   end
 
 end
