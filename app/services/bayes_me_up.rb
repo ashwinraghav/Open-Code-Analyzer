@@ -29,9 +29,9 @@ class BayesMeUp
   def nostradamus(value)
     male = 1
     female = 1
-    value.each_key do |key|
-      male = male * probability_density_function(value[key], mean_for(:male, key), variance(:male, key))
-      female = female * probability_density_function(value[key], mean_for(:female, key), variance(:female, key))
+    value.each_pair do |k, v|
+      male = male * probability_density_function(v, mean_for(:male, k), variance(:male, k))
+      female = female * probability_density_function(v, mean_for(:female, k), variance(:female, k))
     end
     male = male * 0.5
     female = female * 0.5
