@@ -4,3 +4,4 @@ log/
 */**/*.swp
 public/*
 config/database.yml
+public/data/*.zip

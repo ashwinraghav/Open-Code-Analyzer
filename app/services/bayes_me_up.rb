@@ -17,25 +17,27 @@ class BayesMeUp
   end
 
   def nostradamus(value)
-    training_data.keys.inject({}) do | result, category |
-      result[category] = value.entries.inject({}) do |hash, (k, v) |
+    foo = training_data.keys.inject({}) do |result, category|
+      result[category] = value.entries.inject({}) do |hash, (k, v)|
         hash[k] = probability_density_function(v, mean_for(category, k), variance_for(category, k))
         hash
       end
       result
+    end.entries.inject({}) do |result, (key, values_hash)|
+      result[key] = values_hash.values.inject(0.5) { |r, v| r = r * v; r }
+      result
     end
 
-    p foo
 
-    male = 1
-    female = 1
-    value.each_pair do |k, v|
-      male *= probability_density_function(v, mean_for(:male, k), variance_for(:male, k))
-      female *= probability_density_function(v, mean_for(:female, k), variance_for(:female, k))
-    end
-    male = male * 0.5
-    female = female * 0.5
-    {:male => male, :female => female}
+#    male = 1
+#    female = 1
+#    value.each_pair do |k, v|
+#      male *= probability_density_function(v, mean_for(:male, k), variance_for(:male, k))
+#      female *= probability_density_function(v, mean_for(:female, k), variance_for(:female, k))
+#    end
+#    male = male * 0.5
+#    female = female * 0.5
+#    {:male => male, :female => female}
   end
 
   def training_data
@@ -52,6 +54,6 @@ class BayesMeUp
   end
 
   def variance_for(category, attribute)
-    sample_variance(training_data[category].map { |item| item[attribute]}, mean_for(category, attribute))
+    sample_variance(training_data[category].map { |item| item[attribute] }, mean_for(category, attribute))
   end
 end
