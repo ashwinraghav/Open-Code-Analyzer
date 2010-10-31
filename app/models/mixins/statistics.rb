@@ -9,6 +9,8 @@ module Statistics
     values.inject(& :+) / values.size
   end
 
+  # uses Bessel's correction to take into account that we're working out the variance based only
+  # on a sample data set - http://en.wikipedia.org/wiki/Bessel%27s_correction
   def sample_variance(values, mean)
     values.map { |item| (item - mean) ** 2 }.inject(& :+) / (values.size - 1)
   end
