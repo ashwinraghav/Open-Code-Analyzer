@@ -15,7 +15,7 @@ describe CodeSubmissionsController do
 
       put :create, :upload => {"datafile" => uploaded_file}
 
-      response.should redirect_to code_submission_path(1)
+      response.should redirect_to code_submission_path(assigns[:code_submission_request])
     end
   end
 
@@ -29,6 +29,7 @@ describe CodeSubmissionsController do
       response.should render_template "new"
     end
   end
+
   describe "show action" do
     it "should get the metrics with the newly unzipped folder" do
       folder_path = "this/is/a/folder/path/"
