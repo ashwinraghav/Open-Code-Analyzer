@@ -3,3 +3,4 @@ log/
 .idea/*
 */**/*.swp
 public/*
+config/database.yml
