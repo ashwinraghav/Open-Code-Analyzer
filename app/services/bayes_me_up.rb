@@ -16,11 +16,11 @@ class BayesMeUp
   end
 
   def gaussianify
-    mean_height = mean(:male, :height)
+    mean_height = mean_for(:male, :height)
     variance_height = variance(:male, :height)
-    mean_weight = mean(:male, :weight)
+    mean_weight = mean_for(:male, :weight)
     variance_weight = variance(:male, :weight)
-    mean_foot = mean(:male, :foot)
+    mean_foot = mean_for(:male, :foot)
     variance_foot = variance(:male, :foot)
 
     [mean_height, variance_height, mean_weight, variance_weight, mean_foot, variance_foot]
@@ -30,8 +30,8 @@ class BayesMeUp
     male = 1
     female = 1
     value.each_key do |key|
-      male = male * probability_density_function(value[key], mean(:male, key), variance(:male, key))
-      female = female * probability_density_function(value[key], mean(:female, key), variance(:female, key))
+      male = male * probability_density_function(value[key], mean_for(:male, key), variance(:male, key))
+      female = female * probability_density_function(value[key], mean_for(:female, key), variance(:female, key))
     end
     male = male * 0.5
     female = female * 0.5
@@ -43,12 +43,16 @@ class BayesMeUp
   end
 
   private
-  def mean(category, attribute)
-    training_data[category].map { |item| item[attribute].to_f }.average
+  def mean_for(category, attribute)
+    mean(values_for(category, attribute))
+  end
+
+  def values_for(category, attribute)
+    training_data[category].map { |item| item[attribute].to_f }
   end
 
   def variance(category, attribute)
-    mean = mean(category, attribute)
+    mean = mean_for(category, attribute)
     numerator = training_data[category].map { |item| (item[attribute] - mean) ** 2 }.sum
     numerator / (training_data[category].size-1)
   end

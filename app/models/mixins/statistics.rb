@@ -4,4 +4,8 @@ module Statistics
     power = ((x-mean)**2) / (2*variance)
     (1 / denominator) * (Math::E ** (-power))
   end
+
+  def mean(values)
+    values.inject(&:+) / values.size
+  end
 end

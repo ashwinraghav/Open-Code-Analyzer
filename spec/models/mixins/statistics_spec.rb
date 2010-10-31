@@ -15,4 +15,8 @@ describe Statistics do
     it "pdf for height" do
       Sample.new.probability_density_function(6, 5.855, 3.5033e-02).should be_close(1.5789, 0.0001)
     end
+
+    it "mean" do
+      Sample.new.mean([1,2,3]).should == 2
+    end
 end
