@@ -3,8 +3,8 @@ class CodeSubmission < ActiveRecord::Base
   attr_accessor :upload
   validates_format_of :upload, :with => /\.zip$/, :message => ZIP_FILES_ONLY
 
-  def save (upload)
-    @upload_params = upload
+  def save (uploaded_file_params)
+    @upload_params = uploaded_file_params
     super
   end
 
