@@ -16,15 +16,18 @@ class BayesMeUp
     [mean_height, variance_height, mean_weight, variance_weight, mean_foot, variance_foot]
   end
 
-  def nostradamus(value)
-    foo = training_data.keys.inject({}) do |result, category|
-      result[category] = value.entries.inject({}) do |hash, (k, v)|
+  # nostradamus({:height => 6, :weight =>130, :foot =>8})
+  def nostradamus(value_to_predict)
+    categories_with_probabilities = training_data.keys.inject({}) do |result, category|
+      result[category] = value_to_predict.entries.inject({}) do |hash, (k, v)|
         hash[k] = probability_density_function(v, mean_for(category, k), variance_for(category, k))
         hash
       end
       result
-    end.entries.inject({}) do |result, (key, values_hash)|
-      result[key] = values_hash.values.inject(0.5) { |r, v| r = r * v; r }
+    end
+
+    categories_with_probabilities.entries.inject({}) do |result, (key, values_hash)|
+      result[key] = values_hash.values.inject(0.5) { |r, v| r * v }
       result
     end
 
