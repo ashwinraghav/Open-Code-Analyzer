@@ -33,7 +33,7 @@ class BayesMeUp
     end
     male = male * 0.5
     female = female * 0.5
-    puts [male, female].sort
+    {:male => male, :female => female}
   end
 
   def training_data
@@ -59,18 +59,4 @@ class BayesMeUp
 
   alias mean calculate_mean
   alias variance calculate_variance
-end
-
-b = BayesMeUp.new
-
-males = [{:height => 6, :weight => 180, :foot => 12}, {:height => 5.92, :weight => 190, :foot => 11}, {:height => 5.58, :weight => 170, :foot => 12}, {:height => 5.92, :weight => 165, :foot => 10}]
-
-males.each do |male|
-  b.train(male, :male)
-end
-
-females = [{:height => 5, :weight => 100, :foot => 6}, {:height => 5.5, :weight => 150, :foot => 8}, {:height => 5.42, :weight => 130, :foot => 7}, {:height => 5.75, :weight => 150, :foot => 9}]
-
-females.each do |female|
-  b.train(female, :female)
 end
