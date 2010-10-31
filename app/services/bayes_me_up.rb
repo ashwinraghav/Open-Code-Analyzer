@@ -9,6 +9,8 @@ class Array
 end
 
 class BayesMeUp
+  include Statistics
+
   def train(hash, category)
     (training_data[category] ||= []) << hash
   end
@@ -43,12 +45,6 @@ class BayesMeUp
   private
   def mean(category, attribute)
     training_data[category].map { |item| item[attribute].to_f }.average
-  end
-
-  def probability_density_function(x, mean, variance)
-    denom = Math.sqrt(2 * Math::PI * variance)
-    power = ((x-mean)**2) / (2*variance)
-    (1 / denom) * (Math::E ** (0-power))
   end
 
   def variance(category, attribute)
