@@ -1,4 +1,6 @@
 class TrainingDataPoint
+  attr_accessor :fields
+
   def initialize(fields)
     @fields = fields
   end
@@ -11,14 +13,18 @@ class TrainingDataPoint
 end
 
 class TrainingData
+  include Statistics
+
   def add(category, value)
     training_data[category] = value
   end
+
   alias []= add
 
   def get(name)
     training_data[name]
   end
+
   alias [] get
 
   def training_data
@@ -27,6 +33,13 @@ class TrainingData
 
   def categories
     training_data.keys
+  end
+
+  def means_for(category, * attributes)
+    attributes.inject({}) do |hash, attribute|
+      hash[attribute] = mean(training_data[category].map { |item| item[attribute].to_f })
+      hash
+    end
   end
 end
 
@@ -67,7 +80,9 @@ class BayesMeUp
 
   private
   def mean_for(category, attribute)
-    mean(values_for(category, attribute))
+    training_data.means_for(category, attribute)[attribute]
+
+#    mean(values_for(category, attribute))
   end
 
   def values_for(category, attribute)
