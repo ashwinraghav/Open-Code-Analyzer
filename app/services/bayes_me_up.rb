@@ -35,7 +35,7 @@ class TrainingData
     training_data.keys
   end
 
-  def means_for(category, * attributes)
+  def means_for(category, *attributes)
     attributes.inject({}) do |hash, attribute|
       hash[attribute] = mean(training_data[category].map { |item| item[attribute].to_f })
       hash
@@ -81,8 +81,6 @@ class BayesMeUp
   private
   def mean_for(category, attribute)
     training_data.means_for(category, attribute)[attribute]
-
-#    mean(values_for(category, attribute))
   end
 
   def values_for(category, attribute)
