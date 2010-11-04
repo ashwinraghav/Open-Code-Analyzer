@@ -1,17 +1,3 @@
-class TrainingDataPoint
-  attr_accessor :fields
-
-  def initialize(fields)
-    @fields = fields
-  end
-
-  def get(name)
-    @fields[name]
-  end
-
-  alias [] get
-end
-
 class TrainingData
   include Statistics
 
@@ -54,7 +40,7 @@ class BayesMeUp
     (training_data[category] ||= []) << TrainingDataPoint.new(training_data_point)
   end
 
-  #
+  # 
   # b = BayesMeUp.new
   # b.train({:height => 6, :weight => 200, :foot => 10}, :male)
   # b.train({:height => 5.72, :weight => 120, :foot => 6}, :female)
