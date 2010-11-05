@@ -18,5 +18,4 @@ describe BayesMeUp do
     prediction[:male].should be_close(6.19707184387809e-09, 0.0000000001)
     prediction[:female].should be_close(0.000537790918363002, 0.000000001)
   end
-
 end

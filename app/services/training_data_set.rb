@@ -19,7 +19,7 @@ class TrainingDataSet
 
     metric_plus_values.entries.inject({}) do |result, (metric, values)|
       mean = mean(values)
-      result[metric] = [mean, sample_variance(values, mean)]
+      result[metric] = Metric.new(metric, mean, sample_variance(values, mean))
       result
     end
   end
