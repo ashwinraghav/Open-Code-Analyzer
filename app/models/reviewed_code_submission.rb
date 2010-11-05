@@ -1,6 +1,8 @@
 class ReviewedCodeSubmission < ActiveRecord::Base
+  METRICS = ["number_of_classes", "number_of_methods", "lines_of_code", "total_cyclomatic_complexity", "max_cyclomatic_complexity"]
+
   def metrics
-   self.attributes.reject { |attr_name,_| attr_name == "id" or attr_name == "rating" }
+    METRICS.inject({}) { |hash, metric_name| hash[metric_name] = self.send(metric_name); hash }
   end
 
   def has_code?
