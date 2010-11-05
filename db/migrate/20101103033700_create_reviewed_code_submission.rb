@@ -7,6 +7,7 @@ class CreateReviewedCodeSubmission < ActiveRecord::Migration
       t.integer :total_cyclomatic_complexity
       t.integer :max_cyclomatic_complexity
       t.integer :rating
+      t.string :problem
     end
   end
 

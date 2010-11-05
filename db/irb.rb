@@ -1,6 +1,5 @@
 #awk -f cleanup_data.awk seed_data.csv > cleaned_up_seed_data.csv
 
-
 below_average_training_set = TrainingDataSet.new(:below_average)
 average_training_set = TrainingDataSet.new(:average)
 above_average_training_set = TrainingDataSet.new(:above_average)

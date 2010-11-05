@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20101103033700) do
     t.integer "total_cyclomatic_complexity"
     t.integer "max_cyclomatic_complexity"
     t.integer "rating"
+    t.string  "problem"
   end
 
 end
