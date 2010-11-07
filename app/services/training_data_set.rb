@@ -1,6 +1,10 @@
 class TrainingDataSet
   include Statistics
 
+  def name
+    @category.to_s.sub(/_/, " ").capitalize
+  end
+
   def initialize(category)
     @category = category
   end

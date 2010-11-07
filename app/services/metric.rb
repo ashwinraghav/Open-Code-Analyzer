@@ -10,4 +10,6 @@ class Metric
   def last
     @sample_variance
   end
+
+  attr_accessor :mean, :name, :sample_variance
 end

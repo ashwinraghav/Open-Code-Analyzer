@@ -1,13 +1,38 @@
 require 'rubygems'
 require 'nokogiri'
 
+class ProcessedMetric
+  def initialize(description, value)
+    @description, @value = description, value
+  end
+
+  def name
+    @description.database_name
+  end
+
+  def long_name
+    @description.long_name
+  end
+
+  attr_accessor :value
+
+end
+
+class MetricDescription
+  def initialize(xml_name, long_name, database_name)
+    @xml_name, @long_name, @database_name = xml_name, long_name, database_name
+  end
+
+  attr_accessor :xml_name, :long_name, :database_name 
+end
+
 class MetricsProcessor
 
-  METRICS = { "NOC" => "Number of classes",
-              "NOM" =>"Number of methods",
-              "LOC" =>"Lines of code",
-              "CC" => "Cyclomatic complexity",
-              "CCmax" => "Maximum cyclomatic complexity" }
+  METRICS = [ MetricDescription.new("NOC", "Number of classes", "number_of_classes"),
+              MetricDescription.new("NOM", "Number of methods", "number_of_methods"),
+              MetricDescription.new("LOC", "Lines of code", "lines_of_code"),
+              MetricDescription.new("CC", "Cyclomatic complexity", "total_cyclomatic_complexity"),
+              MetricDescription.new("CCmax", "Maximum cyclomatic complexity", "max_cyclomatic_complexity")]
 
   def initialize(folder)
     @folder = folder
@@ -16,7 +41,7 @@ class MetricsProcessor
   def get_metrics()
     stream = open("|lib/javancss/bin/javancss -recursive -all -xml #{@folder}").read()
     @doc = Nokogiri::XML(stream)
-    METRICS.keys.collect{ |m| [METRICS[m], send("get_#{m.downcase}")] }
+    METRICS.collect{ |m| ProcessedMetric.new(m, send("get_#{m.xml_name.downcase}")) }
   end
   
   def get_noc()
