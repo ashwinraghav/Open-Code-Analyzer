@@ -43,7 +43,7 @@ class CodeSubmissionsController < ApplicationController
 
     @prediction = bayes.nostradamus(metricities)
     @training_sets = [below_average_training_set, average_training_set, above_average_training_set]
-
+    
     p below_average_training_set.metrics
 
   end

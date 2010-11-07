@@ -13,10 +13,39 @@
 
 <h3>Training Sets</h3>
 
-<% @training_sets.each do |training_data_set| %>
-    <h4><%= training_data_set.name %></h4>
-    <% training_data_set.metrics.entries.each do |name, metric| %>
-        <div><%= name.humanize %> (Mean: <%= metric.mean %>, Variance: <%= metric.sample_variance %>)</div>
-    <% end %>
+<% result = {}
+   @training_sets.each do |training_data_set|
+       training_data_set.metrics.entries.each do |name, metric|
+           (result[name] ||= []) << metric.mean
+           result[name] << metric.sample_variance
+       end
+   end %>
 
-<% end %>
+<table border="1px" bgcolor="ffffff" cellpadding="5px" cellspacing="0px">
+  <thead>
+  <th></th>
+  <% @training_sets.map(& :name).each do |name| %>
+      <th colspan="2"><%= name %></th>
+  <% end %>
+  </thead>
+  <tbody align="center">
+  <tr>
+    <td></td>
+    <td>Mean</td>
+    <td>Variance</td>
+    <td>Mean</td>
+    <td>Variance</td>
+    <td>Mean</td>
+    <td>Variance</td>
+  </tr>
+    <% result.each do |name, values| %>
+      <tr>
+      <td><%= name.humanize %></td>
+        <% values.each do |value| %>
+
+            <td><%= value %></td>
+        <% end %>
+        </tr>
+  <% end %>
+  </tbody>
+</table>
