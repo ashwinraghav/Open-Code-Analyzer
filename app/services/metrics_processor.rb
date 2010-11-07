@@ -31,8 +31,8 @@ class MetricsProcessor
   METRICS = [ MetricDescription.new("NOC", "Number of classes", "number_of_classes"),
               MetricDescription.new("NOM", "Number of methods", "number_of_methods"),
               MetricDescription.new("LOC", "Lines of code", "lines_of_code"),
-              MetricDescription.new("CC", "Cyclomatic complexity", "total_cyclomatic_complexity"),
-              MetricDescription.new("CCmax", "Maximum cyclomatic complexity", "max_cyclomatic_complexity")]
+              MetricDescription.new("CC", "Total Cyclomatic complexity", "total_cyclomatic_complexity"),
+              MetricDescription.new("CCmax", "Max cyclomatic complexity", "max_cyclomatic_complexity")]
 
   def initialize(folder)
     @folder = folder

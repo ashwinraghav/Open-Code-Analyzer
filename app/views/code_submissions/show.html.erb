@@ -1,23 +1,25 @@
 <h3>Code metrics for this submission</h3>
 
+<div>
+
+<table border="1px" bgcolor="ffffff" cellpadding="5px" cellspacing="0px">
+  <tbody align="center">
 <% @metrics.each do |processed_metric| %>
-    <div><%= processed_metric.long_name %> : <%= processed_metric.value %></div>
+    <tr>
+      <td><%= processed_metric.long_name %></td>
+      <td><%= processed_metric.value %></td>
+    </tr>
 <% end %>
+  </tbody>
+</table>
 
-
-<h3>Prediction</h3>
-
-<% @prediction.each do |name, probability| %>
-    <div><%= name.to_s.humanize %> : <%= probability %></div>
-<% end %>
-
-<h3>Training Sets</h3>
+  <h3>Training Sets</h3>
 
 <% result = {}
    @training_sets.each do |training_data_set|
        training_data_set.metrics.entries.each do |name, metric|
            (result[name] ||= []) << metric.mean
-           result[name] << metric.sample_variance
+           result[name] << Math.sqrt(metric.sample_variance)
        end
    end %>
 
@@ -32,20 +34,29 @@
   <tr>
     <td></td>
     <td>Mean</td>
-    <td>Variance</td>
+    <td>Standard Deviation</td>
     <td>Mean</td>
-    <td>Variance</td>
+    <td>Standard Deviation</td>
     <td>Mean</td>
-    <td>Variance</td>
+    <td>Standard Deviation</td>
   </tr>
     <% result.each do |name, values| %>
       <tr>
       <td><%= name.humanize %></td>
         <% values.each do |value| %>
-
             <td><%= value %></td>
         <% end %>
         </tr>
   <% end %>
   </tbody>
 </table>
+
+</div>  
+
+<h3>Prediction</h3>
+
+<% @prediction.each do |name, probability| %>
+    <div><%= name.to_s.humanize %> : <%= probability %></div>
+<% end %>
+
+
