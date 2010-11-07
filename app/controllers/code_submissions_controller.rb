@@ -1,6 +1,7 @@
 class CodeSubmissionsController < ApplicationController
   before_filter :create_code_submissions_request, :only => [:create]
   before_filter :get_code_submissions_request, :only => :show
+  helper_method :title_text
 
   def create
     if @code_submission_request.save
@@ -27,5 +28,9 @@ class CodeSubmissionsController < ApplicationController
 
   def get_code_submissions_request
     @code_submission_request = CodeSubmission.find(params[:id].to_i)
+  end
+
+  def title_text
+    "Open Code Analyzer"
   end
 end
