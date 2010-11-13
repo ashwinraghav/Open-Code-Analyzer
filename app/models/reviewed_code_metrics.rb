@@ -13,7 +13,6 @@ class ReviewedCodeMetrics
       average.each { |r| average_training_set.add r if r.id % 2 == 0 }
       above_average.each { |r| above_average_training_set.add r if r.id % 2 == 0 }
 
-
       if category == :below_average
         below_average_training_set.metrics
       elsif category == :average
