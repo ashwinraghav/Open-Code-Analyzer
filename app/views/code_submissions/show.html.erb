@@ -1,5 +1,22 @@
 <h3>Code metrics for this submission</h3>
 
-<% @metrics.each do |key, value | %>
-    <div><%= key %> : <%= value %></div>
+<% @metrics.each do |processed_metric| %>
+    <div><%= processed_metric.long_name %> : <%= processed_metric.value %></div>
+<% end %>
+
+
+<h3>Prediction</h3>
+
+<% @prediction.each do |name, probability| %>
+    <div><%= name.to_s.humanize %> : <%= probability %></div>
+<% end %>
+
+<h3>Training Sets</h3>
+
+<% @training_sets.each do |training_data_set| %>
+    <h4><%= training_data_set.name %></h4>
+    <% training_data_set.metrics.entries.each do |name, metric| %>
+        <div><%= name.humanize %> (Mean: <%= metric.mean %>, Variance: <%= metric.sample_variance %>)</div>
+    <% end %>
+
 <% end %>
