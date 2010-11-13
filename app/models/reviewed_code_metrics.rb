@@ -1,25 +1,11 @@
-class ReviewedCodeMetrics
-  class << self
-    def find_by_category_and_problem(category, problem)
-      below_average_training_set = TrainingDataSet.new(:below_average)
-      average_training_set = TrainingDataSet.new(:average)
-      above_average_training_set = TrainingDataSet.new(:above_average)
+class ReviewedCodeMetrics < ActiveRecord::Base
+  set_table_name "reviewed_code_metrics"
 
-      below_average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 1 }
-      average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 2 }
-      above_average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 3 }
-
-      below_average.each { |r| below_average_training_set.add r if r.id % 2 == 0 }
-      average.each { |r| average_training_set.add r if r.id % 2 == 0 }
-      above_average.each { |r| above_average_training_set.add r if r.id % 2 == 0 }
-
-      if category == :below_average
-        below_average_training_set.metrics
-      elsif category == :average
-        average_training_set.metrics
-      else
-        above_average_training_set.metrics
-      end
-    end
+  def metrics
+    { "max_cyclomatic_complexity" => Metric.new("max_cyclomatic_complexity",self.mean_max_complexity, self.var_max_complexity),
+      "lines_of_code" => Metric.new("lines_of_code",self.mean_lines_of_code, self.var_lines_of_code), 
+      "number_of_methods" => Metric.new("number_of_methods",self.mean_no_of_methods, self.var_no_of_methods),
+      "number_of_classes" => Metric.new("number_of_classes",self.mean_no_of_classes, self.var_no_of_classes),
+      "total_cyclomatic_complexity" => Metric.new("total_cyclomatic_complexity",self.mean_total_cyclomatic_complexity, self.var_total_cyclomatic_complexity)    }
   end
 end
