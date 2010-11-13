@@ -7,15 +7,16 @@ class Bayes
 
   def nostradamus(value_to_predict)
     categories_with_probabilities = training_data.entries.inject({}) do |result, (category, values)|
-      result[category] = value_to_predict.entries.inject({}) do |hash, (attribute, value)|
-        hash[attribute] = probability_density_function(value, training_data[category][attribute].first, training_data[category][attribute].last)
+      result[category] = value_to_predict.entries.inject({}) do |hash, (metric_name, value)|
+        metric = training_data[category][metric_name]
+        hash[metric_name] = probability_density_function(value, metric.mean, metric.sample_variance)
         hash
       end
       result
     end
 
-    categories_with_probabilities.entries.inject({}) do |result, (key, values_hash)|
-      result[key] = values_hash.values.inject(0.5) { |r, v| r * v }
+    categories_with_probabilities.entries.inject({}) do |result, (category, values_hash)|
+      result[category] = values_hash.values.inject(0.5) { |cumulative_probability, probability| cumulative_probability * probability }
       result
     end
   end
