@@ -25,7 +25,7 @@ describe CodeSubmissionsController do
   
       put :create, :upload => {"datafile" => uploaded_file}
 
-      response.flash[:error].should == CodeSubmissionRequest::ZIP_FILES_ONLY
+      response.flash[:error].should == CodeSubmission::ZIP_FILES_ONLY
       response.should render_template "new"
     end
   end

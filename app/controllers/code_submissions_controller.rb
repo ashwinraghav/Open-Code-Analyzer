@@ -32,9 +32,9 @@ class CodeSubmissionsController < ApplicationController
     above_average.each { |r| above_average_training_set.add r if r.id % 2 == 0 }
 
     bayes = Bayes.new
-    bayes.train(:below_average, below_average_training_set.metrics)
-    bayes.train(:average, average_training_set.metrics)
-    bayes.train(:above_average, above_average_training_set.metrics)
+    bayes.train(:below_average, ReviewedCodeMetrics.find_by_category_and_problem(:below_average, "Mars Rover").metrics) 
+    bayes.train(:average, ReviewedCodeMetrics.find_by_category_and_problem(:average, "Mars Rover").metrics)
+    bayes.train(:above_average, ReviewedCodeMetrics.find_by_category_and_problem(:above_average, "Mars Rover").metrics)
 
     metricities = @metrics.inject({}) do |hash, processed_metric|
       hash[processed_metric.name] = processed_metric.value.to_i
@@ -43,9 +43,6 @@ class CodeSubmissionsController < ApplicationController
 
     @prediction = bayes.nostradamus(metricities)
     @training_sets = [below_average_training_set, average_training_set, above_average_training_set]
-
-    p below_average_training_set.metrics
-
   end
 
   private
