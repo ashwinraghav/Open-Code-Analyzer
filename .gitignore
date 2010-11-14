@@ -3,5 +3,6 @@ log/
 .idea/*
 */**/*.swp
 */**/*.swo
+public/data
 config/database.yml
 public/data/*.zip
