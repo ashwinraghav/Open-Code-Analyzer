@@ -2,6 +2,7 @@
 log/
 .idea/*
 */**/*.swp
+*.swp
 */**/*.swo
 public/data
 config/database.yml
