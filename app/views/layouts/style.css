@@ -1,160 +1,145 @@
-body
-{
-	margin: 0;
-	padding: 0;
-	background: #FFF url(bg_line.gif) repeat-x left top;
-	color: #888;
-	text-align: left;
+body {
+    margin: 0;
+    padding: 0;
+    background: #FFF url(bg_line.gif) repeat-x left top;
+    color: #888;
+    text-align: left;
 }
 
-
-
-#container
-{
-	position: static;
-	padding:0;
-	width: auto;
-	margin: 0 auto;
-	text-align: left;
+#container {
+    position: static;
+    padding: 0;
+    width: auto;
+    margin: 0 auto;
+    text-align: left;
 }
 
-h1, h2, h3
-{
-	margin: 0;
-	background-repeat: no-repeat;
-	background-position: left top;
+h1, h2, h3 {
+    margin: 0;
+    background-repeat: no-repeat;
+    background-position: left top;
 }
 
-#pageHeader h1
-{
-	height: 200px;
-	background: url(head.jpg) no-repeat;
-	padding:20px 0px 0px 500px;
-	color: #FFFFFF;
+#pageHeader h1 {
+    height: 200px;
+    background: url(head.jpg) no-repeat;
+    padding: 20px 0px 0px 500px;
+    color: #FFFFFF;
 }
 
-#preamble
-{
-	position: relative;
-	left: 195px;
-	padding-bottom: 0px;
-	width: 600px;
+#preamble {
+    position: relative;
+    left: 195px;
+    padding-bottom: 0px;
+    width: 600px;
 
 }
 
-#preamble h3
-{
-	height: 70px;
+#preamble h3 {
+    height: 70px;
 }
 
-#preamble p
-{
-	width: 550px;
+#preamble p {
+    width: 550px;
 }
 
-#supportingText
-{
-	position: relative;
-	left: 195px;
-	padding-bottom: 0px;
-	width: 600px;
+#supportingText {
+    position: relative;
+    left: 195px;
+    padding-bottom: 0px;
+    width: 600px;
 }
 
-#supportingText p
-{
-	line-height: 1.5em;
+#supportingText p {
+    line-height: 1.5em;
 }
 
-#supportingText h3 { height: auto; }
-
-#explanation h3
-{
-	color: #AC1F01;
+#supportingText h3 {
+    height: auto;
 }
 
-#linkList
-{
-	position: absolute;
-	top: 220px;
-	left: 17px;
-	width: 190px;
+#explanation h3 {
+    color: #AC1F01;
 }
 
-#linkList h3 { height: auto; }
-
-#lselect h3
-{
-	color: #AC1F01;
+#linkList {
+    position: absolute;
+    top: 220px;
+    left: 17px;
+    width: 190px;
 }
 
-#larchives h3
-{
-	color: #AC1F01;
+#linkList h3 {
+    height: auto;
 }
 
-#linkList ul
-{
-	margin: 1em 0 1em 1em;
-	padding: 0;
-	font-size: 12px;
-	list-style: none;
-	text-align: left;
+#lselect h3 {
+    color: #AC1F01;
 }
 
-#larchives li, #lresources li { text-transform: lowercase; }
-
-#linkList ul li
-{
-	margin: 0 0 .5em;
-
-	line-height: 1;
+#larchives h3 {
+    color: #AC1F01;
 }
 
-#linkList li a:link, #linkList li a:visited
-{
-	font-family: Verdana,Arial,Sans-serif;
-	font-size: 90%;
+#linkList ul {
+    margin: 1em 0 1em 1em;
+    padding: 0;
+    font-size: 12px;
+    list-style: none;
+    text-align: left;
 }
 
-#linkList #lselect a:link, #linkList #lselect a:visited { display: block; }
-
-#linkList #lselect a.c:link, #linkList #lselect a.c:visited
-{
-	display: inline;
-	font-family: Georgia,Serif;
-	font-weight: normal;
-	background-color: transparent;
-	text-transform: lowercase;
+#larchives li, #lresources li {
+    text-transform: lowercase;
 }
 
-#footer
-{
-	background: #555;
-	color: #fff;
-	padding: 10px 20px;
-	font: 85% Verdana,Arial,Sans-serif;
-	text-align: center;
-	border-bottom: 1px solid #333;
-	border-top: 2px solid #333;
+#linkList ul li {
+    margin: 0 0 .5em;
+
+    line-height: 1;
 }
 
-#footer a:link, #footer a:visited
-{
-	padding: 0 5px;
-	font-weight: normal;
+#linkList li a:link, #linkList li a:visited {
+    font-family: Verdana, Arial, Sans-serif;
+    font-size: 90%;
 }
 
-a:link, a:visited
-{
-	color: #676B74;
-	background-color: transparent;
-	font-weight: bold;
-	text-decoration: none;
+#linkList #lselect a:link, #linkList #lselect a:visited {
+    display: block;
 }
 
-a:hover
-{
-	color: #9BA2AA;
-	background-color: transparent;
-	text-decoration: underline;
+#linkList #lselect a.c:link, #linkList #lselect a.c:visited {
+    display: inline;
+    font-family: Georgia, Serif;
+    font-weight: normal;
+    background-color: transparent;
+    text-transform: lowercase;
+}
+
+#footer {
+    background: #555;
+    color: #fff;
+    padding: 10px 20px;
+    font: 85% Verdana, Arial, Sans-serif;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    border-top: 2px solid #333;
+}
+
+#footer a:link, #footer a:visited {
+    padding: 0 5px;
+    font-weight: normal;
+}
+
+a:link, a:visited {
+    color: #676B74;
+    background-color: transparent;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #9BA2AA;
+    background-color: transparent;
+    text-decoration: underline;
 }

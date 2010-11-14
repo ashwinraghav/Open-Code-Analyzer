@@ -11,7 +11,7 @@
 <% form_for CodeSubmission, @code_submission_request, :url => code_submissions_path, :html =>  {:method =>"post", :multipart => "true", :name =>"uploadCode"} do |code_submission_request| %>
     <p><label for="code_submission_request_upload">Select File</label> :
       <%= file_field 'upload', 'datafile' %>
-      <%= submit_tag "Upload code" %>
+      <%= submit_tag "Upload code", :id => :upload %>
 <% end %>
       </div>
 </div>
