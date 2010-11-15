@@ -2,13 +2,13 @@ development:
   adapter: mysql
   database: open_code_analyzer_dev
   username: root
-  password: p@ssw0rd
+  password: root
 
 test:
   adapter: mysql
   database: open_code_analyzer_test
   username: root
-  password: p@ssw0rd
+  password: root
 
 production:
   adapter: mysql

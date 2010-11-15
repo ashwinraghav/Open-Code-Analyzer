@@ -1,3 +1,6 @@
+require 'casclient'
+require 'casclient/frameworks/rails/filter'
+
 class CodeSubmissionsController < ApplicationController
   before_filter :create_code_submissions_request, :only => [:create]
   before_filter :get_code_submissions_request, :only => :show
