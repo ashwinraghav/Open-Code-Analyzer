@@ -1,6 +1,10 @@
 class ReviewedCodeMetrics < ActiveRecord::Base
   set_table_name "reviewed_code_metrics"
 
+  def name
+    self.category.sub(/_/, " ").capitalize
+  end
+
   def metrics
     { "max_cyclomatic_complexity" => Metric.new("max_cyclomatic_complexity",self.mean_max_complexity, self.var_max_complexity),
       "lines_of_code" => Metric.new("lines_of_code",self.mean_lines_of_code, self.var_lines_of_code), 

@@ -42,4 +42,4 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-CASClient::Frameworks::Rails::Filter.configure(:cas_base_url => "https://cas.thoughtworks.com/cas/")
+#CASClient::Frameworks::Rails::Filter.configure(:cas_base_url => "https://cas.thoughtworks.com/cas/")
