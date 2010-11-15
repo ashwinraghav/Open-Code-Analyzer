@@ -42,8 +42,8 @@ class CodeSubmissionsController < ApplicationController
 
   private
   def create_code_submissions_request
-    data_file = params['upload']['datafile']
-    @code_submission_request = CodeSubmission.new({:file_name_on_client => data_file.original_filename, :data_file => data_file})
+    data_file = (params['upload'] || { :datafile => ''})['datafile']
+    @code_submission_request = CodeSubmission.new({:file_name_on_client => data_file.respond_to?(:original_filename) ? data_file.original_filename : "", :data_file => data_file})
   end
 
   def get_code_submissions_request
