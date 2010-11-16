@@ -8,4 +8,5 @@ class ReviewedCodeSubmission < ActiveRecord::Base
   def has_code?
     lines_of_code > 0
   end
+  
 end

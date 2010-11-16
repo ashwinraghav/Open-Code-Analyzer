@@ -9,14 +9,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101113124058) do
+ActiveRecord::Schema.define(:version => 20101115195548) do
 
   create_table "code_submissions", :force => true do |t|
-  end
-
-  create_table "metrics", :force => true do |t|
-    t.string  "email_address"
-    t.boolean "pursue"
+    t.integer "reviewed_code_submission_id"
   end
 
   create_table "reviewed_code_metrics", :force => true do |t|
@@ -42,6 +38,8 @@ ActiveRecord::Schema.define(:version => 20101113124058) do
     t.integer "max_cyclomatic_complexity"
     t.integer "rating"
     t.string  "problem"
+    t.boolean "pursued"
+    t.string  "file_name"
   end
 
 end

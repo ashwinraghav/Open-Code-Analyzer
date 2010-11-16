@@ -2,12 +2,10 @@ body
 {
 	margin: 0;
 	padding: 0;
-	background: #FFF url(bg_line.gif) repeat-x left top;
-	color: #888;
+	background: #000 url(bg_line.gif) repeat-x left top;
+	color: #EECBAD;
 	text-align: left;
 }
-
-
 
 #container
 {
@@ -39,7 +37,6 @@ h1, h2, h3
 	left: 195px;
 	padding-bottom: 0px;
 	width: 600px;
-
 }
 
 #preamble h3

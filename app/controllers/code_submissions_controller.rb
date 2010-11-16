@@ -8,6 +8,7 @@ class CodeSubmissionsController < ApplicationController
 
   def create
     if @code_submission_request.save
+      store_submission
       redirect_to code_submission_path(@code_submission_request)
     else
       flash.now[:error] = @code_submission_request.errors[:file_name_on_client]
@@ -21,6 +22,7 @@ class CodeSubmissionsController < ApplicationController
   def show
     folder = @code_submission_request.extracted_folder
     @metrics = MetricsProcessor.new(folder).get_metrics()
+
 
     below_average_training_set = TrainingDataSet.new(:below_average)
     average_training_set = TrainingDataSet.new(:average)
@@ -48,6 +50,12 @@ class CodeSubmissionsController < ApplicationController
     @training_sets = [below_average_training_set, average_training_set, above_average_training_set]
   end
 
+  def judge
+    rcs = ReviewedCodeSubmission.find_by_file_name(params[:id].to_s)
+    rcs.pursued = params[:pursue]
+    rcs.save!
+  end
+
   private
   def create_code_submissions_request
     data_file = params['upload']['datafile']
@@ -60,5 +68,23 @@ class CodeSubmissionsController < ApplicationController
 
   def title_text
     "Open Code Analyzer"
+  end
+
+  def store_submission
+    folder = @code_submission_request.extracted_folder
+    @metrics = MetricsProcessor.new(folder).get_metrics()
+
+    r = ReviewedCodeSubmission.new
+
+    @metrics.each do |m|
+      r.send(m.long_name.gsub(/ /,'_').underscore + "=", m.value)
+    end
+
+    r.file_name = @code_submission_request.id.to_s
+    ######################Fix This#######################################
+    r.problem = "Sales Tax"
+    ######################Fix This#######################################
+
+    r.save!
   end
 end

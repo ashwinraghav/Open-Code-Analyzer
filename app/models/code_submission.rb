@@ -3,7 +3,6 @@ require 'zip/zip'
 class CodeSubmission < ActiveRecord::Base
   ZIP_FILES_ONLY = "Only files with a .zip extension are permitted"
   DIRECTORY = "public/data/"
-
   attr_accessor :file_name_on_client, :data_file, :file_name_on_server
 
   validates_format_of :file_name_on_client, :with => /\.zip$/, :message => ZIP_FILES_ONLY
