@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101115195548) do
+ActiveRecord::Schema.define(:version => 20101116182413) do
 
   create_table "code_submissions", :force => true do |t|
     t.integer "reviewed_code_submission_id"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20101115195548) do
     t.string  "problem"
     t.boolean "pursued"
     t.string  "file_name"
+    t.string  "user"
   end
 
 end

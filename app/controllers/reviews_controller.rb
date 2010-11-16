@@ -6,6 +6,7 @@ class CodeSubmissionsController < ApplicationController
   before_filter :get_code_submissions_request, :only => :show
   helper_method :title_text
 
+
   def create
     if @code_submission_request.save
       store_submission
@@ -15,6 +16,8 @@ class CodeSubmissionsController < ApplicationController
       render :action => :new
     end
   end
+
+
 
   def new
   end
@@ -49,16 +52,11 @@ class CodeSubmissionsController < ApplicationController
     @training_sets = [below_average, average, above_average]
   end
 
-
   def judge
     rcs = ReviewedCodeSubmission.find_by_file_name(params[:id].to_s)
     rcs.pursued = params[:pursue]
     rcs.user = "Ashley"
     rcs.save!
-  end
-
-  def reviews
-    @users = ReviewedCodeSubmission.find(:all, :select => :user, :conditions => ["user != 'null'"])
   end
 
   private

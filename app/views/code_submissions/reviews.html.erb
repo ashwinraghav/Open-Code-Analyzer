@@ -1,0 +1,12 @@
+<div id="supportingText">
+  <div id="explanation">
+    <h3>Check out what some others might do with this fella</h3>
+    <% @users.each do |u| %>
+        <li><%= link_to u.user%></li>
+    <%end%>
+  </div>
+</div>
+
+<% content_for :side_links do %>
+    <li><%= link_to "New Review", new_review_url %></li>
+<% end %>
