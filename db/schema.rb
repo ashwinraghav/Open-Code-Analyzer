@@ -9,10 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101116182413) do
+ActiveRecord::Schema.define(:version => 20101116193616) do
 
   create_table "code_submissions", :force => true do |t|
     t.integer "reviewed_code_submission_id"
+    t.string  "problem"
+  end
+
+  create_table "metrics", :force => true do |t|
+    t.string  "email_address"
+    t.boolean "pursue"
   end
 
   create_table "reviewed_code_metrics", :force => true do |t|
