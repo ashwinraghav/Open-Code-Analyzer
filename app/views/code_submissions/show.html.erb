@@ -68,7 +68,7 @@
         </span></p>
     <%= link_to "Pass", judge_url(:id => params[:id], :pursue => "false") %>|
     <%= link_to "Pursue", judge_url(:id => params[:id], :pursue => "true") %>|
-    <%= link_to "See Other Opinions", other_opinions_path(:id => params[:id]) %>
+    <%= link_to "See Other Opinions", other_reviews_path(:id => params[:id]) %>
     </div>
 </div>
 <% content_for :side_links do %>

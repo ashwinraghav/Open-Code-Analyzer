@@ -2,7 +2,7 @@
   <div id="explanation">
     <h3>Check out what some others might do with this fella</h3>
     <% @users.each do |u| %>
-        <li><%= link_to u.user%></li>
+        <li><%= link_to u.user, show_review_url(:id => params[:id], :user => u.user)%></li>
     <%end%>
   </div>
 </div>

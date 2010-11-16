@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101116182413) do
+ActiveRecord::Schema.define(:version => 20101116193439) do
 
   create_table "code_submissions", :force => true do |t|
     t.integer "reviewed_code_submission_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20101116182413) do
     t.float  "var_no_of_classes"
     t.float  "mean_lines_of_code"
     t.float  "var_lines_of_code"
+    t.string "user"
   end
 
   create_table "reviewed_code_submissions", :force => true do |t|

@@ -44,5 +44,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :code_submissions
   map.judge 'code_submissions/:id/judge', :controller => "code_submissions", :action => "judge"
   map.new_review 'code_submissions/new', :controller => "code_submissions", :action => "new"
-  map.other_opinions 'code_submissions/:id/reviews', :controller => "code_submissions", :action => "reviews"
+  map.other_reviews 'code_submissions/:id/reviews', :controller => "code_submissions", :action => "reviews"
+  map.show_review 'code_submissions/:id/show_review', :controller => "code_submissions", :action => "show_review"
 end
