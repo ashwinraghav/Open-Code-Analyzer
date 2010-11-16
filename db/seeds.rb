@@ -1,33 +1,5 @@
 require 'csv'
 
-mars_rover_file = CSV.read('db/cleaned_up_mars_rover_seed_data.csv')
-mars_rover_file.shift
-mars_rover_file.shift
-
-mars_rover_file.each do |row|
-  ReviewedCodeSubmission.new({:number_of_classes            => row[1],
-                              :number_of_methods            => row[2],
-                              :lines_of_code                => row[3],
-                              :total_cyclomatic_complexity  => row[4],
-                              :max_cyclomatic_complexity    => row[5],
-                              :rating                       => row[6],
-                              :problem                      => "Mars Rover"}).save
-end
-
-sales_tax_file = CSV.read('db/cleaned_up_tax_seed_data.csv')
-sales_tax_file.shift
-sales_tax_file.shift
-
-sales_tax_file.each do |row|
-  ReviewedCodeSubmission.new({:number_of_classes            => row[1],
-                              :number_of_methods            => row[2],
-                              :lines_of_code                => row[3],
-                              :total_cyclomatic_complexity  => row[4],
-                              :max_cyclomatic_complexity    => row[5],
-                              :rating                       => row[6],
-                              :problem                      => "Sales Tax"}).save
-end
-
 @users = ReviewedCodeSubmission.find(:all, :select => :user)
 
 @users.uniq.each do |u|
@@ -42,9 +14,9 @@ end
   below_average.each { |r| below_average_training_set.add r }
   average.each { |r| average_training_set.add r }
   above_average.each { |r| above_average_training_set.add r }
-  training_sets = {"average" => average_training_set, "below_average" => below_average_training_set, "above_average" => above_average_training_set }
+  training_sets = {"average" => average_training_set, "below_average" => below_average_training_set, "above_average" => above_average_training_set}
 
-  %w{average below_average above_average}.each do |category|
+  %w{ average below_average above_average }.each do |category|
     reviewed_code_metrics = ReviewedCodeMetrics.new(:problem => "Mars Rover", :category => category, :user => u.user)
     metrics = training_sets[category].metrics
     reviewed_code_metrics.mean_max_complexity = metrics["max_cyclomatic_complexity"].mean
@@ -59,5 +31,4 @@ end
     reviewed_code_metrics.var_total_cyclomatic_complexity = metrics["total_cyclomatic_complexity"].sample_variance
     reviewed_code_metrics.save
   end
-
 end

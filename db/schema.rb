@@ -9,20 +9,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD:db/schema.rb
-ActiveRecord::Schema.define(:version => 20101116193439) do
-=======
 ActiveRecord::Schema.define(:version => 20101116193616) do
->>>>>>> f4f7b4cfad38230a9e141b9c64011c94bf50ea95:db/schema.rb
 
   create_table "code_submissions", :force => true do |t|
     t.integer "reviewed_code_submission_id"
     t.string  "problem"
-  end
-
-  create_table "metrics", :force => true do |t|
-    t.string  "email_address"
-    t.boolean "pursue"
   end
 
   create_table "reviewed_code_metrics", :force => true do |t|
