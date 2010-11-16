@@ -18,22 +18,14 @@ class CodeSubmissionsController < ApplicationController
 
   def new
   end
-
+    
   def show
     folder = @code_submission_request.extracted_folder
     @metrics = MetricsProcessor.new(folder).get_metrics()
 
-    below_average_training_set = TrainingDataSet.new(:below_average)
-    average_training_set = TrainingDataSet.new(:average)
-    above_average_training_set = TrainingDataSet.new(:above_average)
-
-    below_average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 1 }
-    average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 2 }
-    above_average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 3 }
-
-    below_average = ReviewedCodeMetrics.find_by_category_and_problem("below_average", "Mars Rover")
-    average = ReviewedCodeMetrics.find_by_category_and_problem("average", "Mars Rover")
-    above_average = ReviewedCodeMetrics.find_by_category_and_problem("above_average", "Mars Rover")
+    below_average = ReviewedCodeMetrics.find_by_category_and_problem("below_average", problem)
+    average = ReviewedCodeMetrics.find_by_category_and_problem("average", problem)
+    above_average = ReviewedCodeMetrics.find_by_category_and_problem("above_average", problem)
     
     bayes = Bayes.new
     bayes.train(:below_average, below_average.metrics) 
@@ -88,9 +80,14 @@ class CodeSubmissionsController < ApplicationController
   end
 
   private
+
+  def problem 
+    @code_submission_request.problem
+  end
+
   def create_code_submissions_request
     data_file = (params['upload'] || { :datafile => ''})['datafile']
-    @code_submission_request = CodeSubmission.new({:file_name_on_client => data_file.respond_to?(:original_filename) ? data_file.original_filename : "", :data_file => data_file})
+    @code_submission_request = CodeSubmission.new({:file_name_on_client => data_file.respond_to?(:original_filename) ? data_file.original_filename : "", :data_file => data_file, :problem => params['problem']})
   end
 
   def get_code_submissions_request
@@ -113,7 +110,7 @@ class CodeSubmissionsController < ApplicationController
 
     r.file_name = @code_submission_request.id.to_s
     ######################Fix This#######################################
-    r.problem = "Sales Tax"
+    r.problem = problem
     ######################Fix This#######################################
 
     r.save!
