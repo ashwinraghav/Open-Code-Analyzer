@@ -1,5 +1,5 @@
-require 'casclient'
-require 'casclient/frameworks/rails/filter'
+#require 'casclient'
+#require 'casclient/frameworks/rails/filter'
 
 class CodeSubmissionsController < ApplicationController
   before_filter :create_code_submissions_request, :only => [:create]
@@ -23,7 +23,6 @@ class CodeSubmissionsController < ApplicationController
     folder = @code_submission_request.extracted_folder
     @metrics = MetricsProcessor.new(folder).get_metrics()
 
-
     below_average_training_set = TrainingDataSet.new(:below_average)
     average_training_set = TrainingDataSet.new(:average)
     above_average_training_set = TrainingDataSet.new(:above_average)
@@ -32,14 +31,14 @@ class CodeSubmissionsController < ApplicationController
     average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 2 }
     above_average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 3 }
 
-    below_average.each { |r| below_average_training_set.add r if r.id % 2 == 0 }
-    average.each { |r| average_training_set.add r if r.id % 2 == 0 }
-    above_average.each { |r| above_average_training_set.add r if r.id % 2 == 0 }
-
+    below_average = ReviewedCodeMetrics.find_by_category_and_problem("below_average", "Mars Rover")
+    average = ReviewedCodeMetrics.find_by_category_and_problem("average", "Mars Rover")
+    above_average = ReviewedCodeMetrics.find_by_category_and_problem("above_average", "Mars Rover")
+    
     bayes = Bayes.new
-    bayes.train(:below_average, ReviewedCodeMetrics.find_by_category_and_problem(:below_average, "Mars Rover").metrics) 
-    bayes.train(:average, ReviewedCodeMetrics.find_by_category_and_problem(:average, "Mars Rover").metrics)
-    bayes.train(:above_average, ReviewedCodeMetrics.find_by_category_and_problem(:above_average, "Mars Rover").metrics)
+    bayes.train(:below_average, below_average.metrics) 
+    bayes.train(:average, average.metrics)
+    bayes.train(:above_average, above_average.metrics)
 
     metricities = @metrics.inject({}) do |hash, processed_metric|
       hash[processed_metric.name] = processed_metric.value.to_i
@@ -47,7 +46,7 @@ class CodeSubmissionsController < ApplicationController
     end
 
     @prediction = bayes.nostradamus(metricities)
-    @training_sets = [below_average_training_set, average_training_set, above_average_training_set]
+    @training_sets = [below_average, average, above_average]
   end
 
   def judge
@@ -58,8 +57,8 @@ class CodeSubmissionsController < ApplicationController
 
   private
   def create_code_submissions_request
-    data_file = params['upload']['datafile']
-    @code_submission_request = CodeSubmission.new({:file_name_on_client => data_file.original_filename, :data_file => data_file})
+    data_file = (params['upload'] || { :datafile => ''})['datafile']
+    @code_submission_request = CodeSubmission.new({:file_name_on_client => data_file.respond_to?(:original_filename) ? data_file.original_filename : "", :data_file => data_file})
   end
 
   def get_code_submissions_request

@@ -43,7 +43,7 @@ above_average.each { |r| above_average_training_set.add r if r.id % 2 == 0 }
 training_sets = {"average" => average_training_set, "below_average" => below_average_training_set, "above_average" => above_average_training_set }
 
 %w{average below_average above_average}.each do |category|
-  reviewed_code_metrics = ReviewedCodeMetrics.new(:problem => "Mars Rover", :category => category.to_sym)
+  reviewed_code_metrics = ReviewedCodeMetrics.new(:problem => "Mars Rover", :category => category)
   metrics = training_sets[category].metrics
   reviewed_code_metrics.mean_max_complexity = metrics["max_cyclomatic_complexity"].mean
   reviewed_code_metrics.var_max_complexity = metrics["max_cyclomatic_complexity"].sample_variance
