@@ -18,7 +18,7 @@ class CodeSubmissionsController < ApplicationController
 
   def new
   end
-    
+
   def show
     user =params[:user]? {:user => params[:user]}:{}
     @metrics = ReviewedCodeSubmission.find_by_file_name(params[:id])
@@ -26,7 +26,7 @@ class CodeSubmissionsController < ApplicationController
     below_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "below_average", :problem => problem}.merge(user)).first
     average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "average", :problem => problem}.merge(user)).first
     above_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "above_average", :problem => problem}.merge(user)).first
-    
+
     bayes = Bayes.new
     bayes.train(:below_average, below_average.metrics) unless below_average.blank?
     bayes.train(:average, average.metrics)unless average.blank?
@@ -41,13 +41,14 @@ class CodeSubmissionsController < ApplicationController
                    }
 
     @prediction = bayes.nostradamus(@metricities)
-    @training_sets = [below_average, average, above_average]
+    @training_sets = [below_average, average, above_average].compact
   end
 
 
   def judge
+    h={:pass => "1", :pursue => "2", :strong_pursue => "3"}
     rcs = ReviewedCodeSubmission.find_by_file_name(params[:id].to_s)
-    rcs.pursued = params[:pursue]
+    rcs.rating = h[params[:pursue].to_sym]
     rcs.user = "Ashley"
     rcs.save!
   end
@@ -58,7 +59,7 @@ class CodeSubmissionsController < ApplicationController
 
   private
 
-  def problem 
+  def problem
     @code_submission_request.problem
   end
 

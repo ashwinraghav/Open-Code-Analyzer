@@ -20,11 +20,11 @@
         <p class="p1"><span>
             <h3>Training Sets</h3>
             <% result = {}
-            @training_sets.each do |training_data_set|
-                training_data_set.metrics.entries.each do |name, metric|
-                    (result[name] ||= []) << metric.mean
-                    result[name] << Math.sqrt(metric.sample_variance)
-                end
+               @training_sets.each do |training_data_set|
+                 training_data_set.metrics.entries.each do |name, metric|
+                 (result[name] ||= []) << metric.mean
+                 result[name] << Math.sqrt(metric.sample_variance)
+               end
             end %>
 
             <table border="1px" bgcolor="ffffff" cellpadding="5px" cellspacing="0px">
@@ -62,12 +62,14 @@
 
             <h3>Prediction</h3>
 
-            <% @prediction.each do |name, probability| %>
+
+            <% puts "@"*10, @prediction.inspect ; @prediction.each do |name, probability| %>
                 <div><%= name.to_s.humanize %> : <%= probability %></div>
             <% end %>
         </span></p>
-    <%= link_to "Pass", judge_url(:id => params[:id], :pursue => "false") %>|
-    <%= link_to "Pursue", judge_url(:id => params[:id], :pursue => "true") %>|
+    <%= link_to "Pass", judge_url(:id => params[:id], :pursue => "pass") %>|
+    <%= link_to "Pursue", judge_url(:id => params[:id], :pursue => "pursue") %>|
+    <%= link_to "Strong Pursue", judge_url(:id => params[:id], :pursue => "strong_pursue") %>|
     <%= link_to "See Other Opinions", other_reviews_path(:id => params[:id]) %>
     </div>
 </div>
