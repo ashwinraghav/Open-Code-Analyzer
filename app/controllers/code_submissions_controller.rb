@@ -19,6 +19,9 @@ class CodeSubmissionsController < ApplicationController
   def new
   end
 
+  def index
+  end
+
   def show
     user =params[:user]? {:user => params[:user]}:{}
     @metrics = ReviewedCodeSubmission.find_by_file_name(params[:id])
@@ -40,7 +43,10 @@ class CodeSubmissionsController < ApplicationController
                     "max_cyclomatic_complexity" => @metrics.max_cyclomatic_complexity
                    }
 
-    @prediction = bayes.nostradamus(@metricities)
+    #@prediction = bayes.nostradamus(@metricities)
+
+    result = bayes.nostradamus(@metricities)
+    @prediction = result.sort_by {|key, value| value}.last.first
     @training_sets = [below_average, average, above_average].compact
   end
 

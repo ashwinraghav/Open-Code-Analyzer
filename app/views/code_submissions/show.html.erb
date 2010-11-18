@@ -3,7 +3,6 @@
         <p class="p1"><span>
             <h3>Code metrics for this submission</h3>
 
-
             <table border="1px" bgcolor="ffffff" cellpadding="5px" cellspacing="0px">
                     <tbody align="center">
                     <% @metricities.keys.each do |key| %>
@@ -59,20 +58,17 @@
 
     <div id="explanation">
         <p class="p1"><span>
-
-            <h3>Prediction</h3>
-
-
-            <% puts "@"*10, @prediction.inspect ; @prediction.each do |name, probability| %>
-                <div><%= name.to_s.humanize %> : <%= probability %></div>
-            <% end %>
+            <h3>This code is <%= @prediction %></h3>
         </span></p>
-    <%= link_to "Pass", judge_url(:id => params[:id], :pursue => "pass") %>|
-    <%= link_to "Pursue", judge_url(:id => params[:id], :pursue => "pursue") %>|
-    <%= link_to "Strong Pursue", judge_url(:id => params[:id], :pursue => "strong_pursue") %>|
-    <%= link_to "See Other Opinions", other_reviews_path(:id => params[:id]) %>
+      <div id='add'>
+        <a style="text-decoration: none;" href = "#{ judge_url(:id => params[:id], :pursue => 'strong_pursue')}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#4A6E33'">Strong Pursue</a>|
+        <a style="text-decoration: none;" href = "#{ judge_url(:id => params[:id], :pursue => 'pursue')}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#FFBF00'">Pursue</a>|
+        <a style="text-decoration: none;" href = "#{ judge_url(:id => params[:id], :pursue => 'pass')}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#FF0000'">Pass</a>|
+        <a style="text-decoration: none;" href = "#{ other_reviews_url(:id => params[:id])}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#0AFF00'">Get Other Opinions</a>
     </div>
+      </div>
 </div>
 <% content_for :side_links do %>
     <li><%= link_to "New Review", new_review_url %></li>
+    <li><%= link_to "About", about_url %></li>
 <% end %>

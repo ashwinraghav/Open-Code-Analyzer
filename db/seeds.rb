@@ -25,13 +25,14 @@ end
 
 @users.each do |u|
   ["Mars Rover", "Sales Tax"].each do |problem|
+    puts "here"
     below_average_training_set = TrainingDataSet.new(:below_average)
     average_training_set = TrainingDataSet.new(:average)
     above_average_training_set = TrainingDataSet.new(:above_average)
 
-    below_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => "Mars Rover", :rating => 1, :user => u.user})
-    average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => "Mars Rover", :rating => 2, :user => u.user})
-    above_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => "Mars Rover", :rating => 3, :user => u.user})
+    below_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 1, :user => u.user})
+    average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 2, :user => u.user})
+    above_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 3, :user => u.user})
 
     below_average.each { |r| below_average_training_set.add r }
     average.each { |r| average_training_set.add r }
