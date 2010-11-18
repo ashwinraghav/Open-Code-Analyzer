@@ -1,5 +1,4 @@
 require 'csv'
-
 namespace :run_once do
   task :load_from_files => :environment do
     mars_rover_file = CSV.read('db/cleaned_up_mars_rover_seed_data.csv')

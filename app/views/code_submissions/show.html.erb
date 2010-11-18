@@ -8,7 +8,7 @@
                     <tbody align="center">
                     <% @metricities.keys.each do |key| %>
                         <tr>
-                        <td><%= key %></td>
+                        <td><%= key.humanize %></td>
                         <td><%= @metrics[key] %></td>
                         </tr>
                     <% end %>
