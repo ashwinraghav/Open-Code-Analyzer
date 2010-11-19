@@ -60,7 +60,7 @@ class CodeSubmissionsController < ApplicationController
   end
 
   def reviews
-    @reviewers = ReviewedCodeMetrics.find(:all, :select => :user, :conditions => ["user != 'null'"]).uniq
+    @reviewers = ReviewedCodeMetrics.find_by_sql("select distinct(user) from reviewed_code_metrics")
   end
 
   private

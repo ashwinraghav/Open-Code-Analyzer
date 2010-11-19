@@ -5,8 +5,8 @@ require 'csv'
 
 ReviewedCodeMetrics.destroy_all
 
-def load_data(metrics, category, u)
-  reviewed_code_metrics = ReviewedCodeMetrics.new(:problem => "Mars Rover", :category => category, :user => u.user)
+def load_data(metrics, category, problem, u)
+  reviewed_code_metrics = ReviewedCodeMetrics.new(:problem => problem, :category => category, :user => u.user)
 
   reviewed_code_metrics.mean_max_complexity = metrics["max_cyclomatic_complexity"].mean
 
@@ -41,7 +41,7 @@ end
 
     %w{ average below_average above_average }.each do |category|
       metrics = training_sets[category].metrics
-      load_data(metrics,category, u) unless metrics.blank?
+      load_data(metrics,category, problem, u) unless metrics.blank?
     end
   end
 end

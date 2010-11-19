@@ -1,10 +1,21 @@
 <div id="supportingText">
     <div id="explanation">
         <p class="p1"><span>
-            <h3><%= params[:pursue] == "true" ? "Pursued" : "Passed" %></h3>
+            <h3>
+                <%=
+                    "Your Judgement of '#{params[:pursue].upcase}' on this candidate has been saved
+                    and will be used to predict your Judgements in the future" 
+                %>
+            </h3>
         </span></p>
     </div>
+   <div id="explanation">
+       <div id='add'>
+         <a href = '<%= "#{show_review_url(:id => params[:id])}"%>' style="background: gray">Go back and judge again</a>
+       </div>
+   </div>
 </div>
+
 <% content_for :side_links do %>
-    <li><%= link_to "New Review", new_review_url %></li>
+  <li><%= link_to "New Review", new_review_url %></li>
 <% end %>

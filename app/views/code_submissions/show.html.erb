@@ -61,10 +61,10 @@
             <h3>This code is <%= @prediction %></h3>
         </span></p>
       <div id='add'>
-        <a style="text-decoration: none;" href = "#{ judge_url(:id => params[:id], :pursue => 'strong_pursue')}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#4A6E33'">Strong Pursue</a>|
-        <a style="text-decoration: none;" href = "#{ judge_url(:id => params[:id], :pursue => 'pursue')}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#FFBF00'">Pursue</a>|
-        <a style="text-decoration: none;" href = "#{ judge_url(:id => params[:id], :pursue => 'pass')}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#FF0000'">Pass</a>|
-        <a style="text-decoration: none;" href = "#{ other_reviews_url(:id => params[:id])}" onmouseover="this.style.color='#ADD8E6'"  onmouseout="this.style.color='#0AFF00'">Get Other Opinions</a>
+        <a href = '<%= "#{judge_url(:id => params[:id], :pursue => 'strong_pursue')}"%>' style="background: green">Strong Pursue</a>
+        <a href = '<%= "#{judge_url(:id => params[:id], :pursue => 'pursue')}"%>' style="background: yellow; color: #212121">Pursue</a>
+        <a href = '<%= "#{judge_url(:id => params[:id], :pursue => 'pass')}"%>' style="background: #f00">Pass</a>
+        <a href = '<%= "#{other_reviews_url(:id => params[:id])}"%>' style="background: gray">Get Other Opinions</a>
     </div>
       </div>
 </div>

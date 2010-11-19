@@ -52,11 +52,14 @@ h1, h2, h3 {
 
 #supportingText p {
     line-height: 1.5em;
+    overflow: hidden;
 }
 
 #supportingText h3 {
     height: auto;
 }
+
+
 
 #explanation h3 {
     color: #AC1F01;

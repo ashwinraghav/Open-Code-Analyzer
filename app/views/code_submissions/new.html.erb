@@ -9,11 +9,10 @@
 
 
     <% form_for CodeSubmission, @code_submission_request, :url => code_submissions_path, :html =>  {:method =>"post", :multipart => "true", :name =>"uploadCode"} do |code_submission_request| %>
-      <p><label for="code_submission_request_upload">Select File</label> :
+      <p><label for="code_submission_request_upload">Select File :</label>
           <%= file_field 'upload', 'datafile' %></p>
-          <p><label for="problem">Problem</label> :
+          <p><label for="problem">Problem:</label>
           <%= collection_select nil, :problem, {"Mars Rover" => "Mars Rover", "Sales Tax" => "Sales Tax"}, :last, :first, { :selected => "Mars Rover" }, {:name => "problem", :id => "problem"} %></p>
-          </p>
           <%= submit_tag "Upload code", :class => :input %>
     <% end %>
   </div>
