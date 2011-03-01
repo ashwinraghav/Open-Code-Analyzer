@@ -1,6 +1,3 @@
-#require 'casclient'
-#require 'casclient/frameworks/rails/filter'
-
 class CodeSubmissionsController < ApplicationController
   before_filter :create_code_submissions_request, :only => [:create]
   before_filter :get_code_submissions_request, :only => :show
@@ -42,8 +39,6 @@ class CodeSubmissionsController < ApplicationController
                     "total_cyclomatic_complexity" => @metrics.total_cyclomatic_complexity,
                     "max_cyclomatic_complexity" => @metrics.max_cyclomatic_complexity
                    }
-
-    #@prediction = bayes.nostradamus(@metricities)
 
     result = bayes.nostradamus(@metricities)
     @prediction = result.sort_by {|key, value| value}.last.first

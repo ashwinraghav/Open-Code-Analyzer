@@ -8,3 +8,4 @@ log/
 public/data
 config/database.yml
 public/data/*.zip
+tags
