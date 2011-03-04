@@ -1,4 +1,4 @@
-class ReviewedCodeMetrics < ActiveRecord::Base
+class CodeProblems < ActiveRecord::Base
   set_table_name "reviewed_code_metrics"
 
   def name

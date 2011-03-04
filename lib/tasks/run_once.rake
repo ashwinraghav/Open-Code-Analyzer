@@ -55,9 +55,9 @@ namespace :run_once do
                                              :problem                      => "Mars Rover"})
       @metrics.save!
 
-      below_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "below_average", :problem => "Mars Rover"}).first
-      average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "average", :problem => "Mars Rover"}).first
-      above_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "above_average", :problem => "Mars Rover"}).first
+      below_average = CodeProblems.find(:all, :conditions => {:category => "below_average", :problem => "Mars Rover"}).first
+      average = CodeProblems.find(:all, :conditions => {:category => "average", :problem => "Mars Rover"}).first
+      above_average = CodeProblems.find(:all, :conditions => {:category => "above_average", :problem => "Mars Rover"}).first
 
       bayes = Bayes.new
       bayes.train(:below_average, below_average.metrics) unless below_average.blank?

@@ -34,9 +34,9 @@ class CodeSubmissionsController < ApplicationController
     average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 2 }
     above_average = ReviewedCodeSubmission.find_all_by_problem("Mars Rover").find_all { |r| r.rating == 3 }
 
-    below_average = ReviewedCodeMetrics.find_by_category_and_problem("below_average", "Mars Rover")
-    average = ReviewedCodeMetrics.find_by_category_and_problem("average", "Mars Rover")
-    above_average = ReviewedCodeMetrics.find_by_category_and_problem("above_average", "Mars Rover")
+    below_average = CodeProblems.find_by_category_and_problem("below_average", "Mars Rover")
+    average = CodeProblems.find_by_category_and_problem("average", "Mars Rover")
+    above_average = CodeProblems.find_by_category_and_problem("above_average", "Mars Rover")
     
     bayes = Bayes.new
     bayes.train(:below_average, below_average.metrics) 

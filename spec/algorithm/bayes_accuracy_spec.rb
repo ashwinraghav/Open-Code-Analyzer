@@ -24,9 +24,9 @@ describe "Accuracy of the Bayes Algorithm" do
       end
     end
 
-    below_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "below_average", :problem => "Mars Rover"}).first
-    average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "average", :problem => "Mars Rover"}).first
-    above_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "above_average", :problem => "Mars Rover"}).first
+    below_average = CodeProblems.find(:all, :conditions => {:category => "below_average", :problem => "Mars Rover"}).first
+    average = CodeProblems.find(:all, :conditions => {:category => "average", :problem => "Mars Rover"}).first
+    above_average = CodeProblems.find(:all, :conditions => {:category => "above_average", :problem => "Mars Rover"}).first
 
     bayes = Bayes.new
     bayes.train(:below_average, below_average.metrics) unless below_average.blank?
@@ -51,29 +51,30 @@ describe "Accuracy of the Bayes Algorithm" do
 
     matches = actual_predicted.find_all { |value| value[0].to_s.eql? value[1] }
     actual_predicted.each do |ap|
-      puts "Predicted: #{ap[0]} | Actual: #{ap[1]}"
+      correct = ap[0].to_s.eql? ap[1]
+      puts "Predicted: #{ap[0]} | Actual: #{ap[1]} #{correct}"
     end
-    puts "Correct: #{matches.size} of #{ReviewedCodeSubmission.all.size}"
+    puts "Correct: #{matches.size} of #{code_submissions.size}"
 
 
   end
 
   def load_data(metrics, category, problem)
-    reviewed_code_metrics = ReviewedCodeMetrics.new(:problem => problem, :category => category, :user => "mark")
+    code_problem = CodeProblems.new(:problem => problem, :category => category, :user => "mark")
 
-    reviewed_code_metrics.mean_max_complexity = metrics["max_cyclomatic_complexity"].mean
+    code_problem.mean_max_complexity = metrics["max_cyclomatic_complexity"].mean
 
-    reviewed_code_metrics.var_max_complexity = metrics["max_cyclomatic_complexity"].sample_variance
-    reviewed_code_metrics.mean_lines_of_code = metrics["lines_of_code"].mean
-    reviewed_code_metrics.var_lines_of_code = metrics["lines_of_code"].sample_variance
-    reviewed_code_metrics.mean_no_of_methods = metrics["number_of_methods"].mean
+    code_problem.var_max_complexity = metrics["max_cyclomatic_complexity"].sample_variance
+    code_problem.mean_lines_of_code = metrics["lines_of_code"].mean
+    code_problem.var_lines_of_code = metrics["lines_of_code"].sample_variance
+    code_problem.mean_no_of_methods = metrics["number_of_methods"].mean
 
-    reviewed_code_metrics.var_no_of_methods = metrics["number_of_methods"].sample_variance
-    reviewed_code_metrics.mean_no_of_classes = metrics["number_of_classes"].mean
-    reviewed_code_metrics.var_no_of_classes = metrics["number_of_classes"].sample_variance
-    reviewed_code_metrics.mean_total_cyclomatic_complexity = metrics["total_cyclomatic_complexity"].mean
-    reviewed_code_metrics.var_total_cyclomatic_complexity = metrics["total_cyclomatic_complexity"].sample_variance
-    reviewed_code_metrics.save
+    code_problem.var_no_of_methods = metrics["number_of_methods"].sample_variance
+    code_problem.mean_no_of_classes = metrics["number_of_classes"].mean
+    code_problem.var_no_of_classes = metrics["number_of_classes"].sample_variance
+    code_problem.mean_total_cyclomatic_complexity = metrics["total_cyclomatic_complexity"].mean
+    code_problem.var_total_cyclomatic_complexity = metrics["total_cyclomatic_complexity"].sample_variance
+    code_problem.save
   end
 
   def load_all_data_in

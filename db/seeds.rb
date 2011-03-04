@@ -3,10 +3,10 @@ require 'csv'
 #Destroy the Reviewed Code metrics and recreate it from existing data
 @users = ReviewedCodeSubmission.find_by_sql("select distinct(user) from reviewed_code_submissions")
 
-ReviewedCodeMetrics.destroy_all
+CodeProblems.destroy_all
 
 def load_data(metrics, category, problem, u)
-  reviewed_code_metrics = ReviewedCodeMetrics.new(:problem => problem, :category => category, :user => u.user)
+  reviewed_code_metrics = CodeProblems.new(:problem => problem, :category => category, :user => u.user)
 
   reviewed_code_metrics.mean_max_complexity = metrics["max_cyclomatic_complexity"].mean
 

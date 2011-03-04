@@ -23,9 +23,9 @@ class CodeSubmissionsController < ApplicationController
     user =params[:user]? {:user => params[:user]}:{}
     @metrics = ReviewedCodeSubmission.find_by_file_name(params[:id])
 
-    below_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "below_average", :problem => problem}.merge(user)).first
-    average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "average", :problem => problem}.merge(user)).first
-    above_average = ReviewedCodeMetrics.find(:all, :conditions => {:category => "above_average", :problem => problem}.merge(user)).first
+    below_average = CodeProblems.find(:all, :conditions => {:category => "below_average", :problem => problem}.merge(user)).first
+    average = CodeProblems.find(:all, :conditions => {:category => "average", :problem => problem}.merge(user)).first
+    above_average = CodeProblems.find(:all, :conditions => {:category => "above_average", :problem => problem}.merge(user)).first
 
     bayes = Bayes.new
     bayes.train(:below_average, below_average.metrics) unless below_average.blank?
@@ -55,7 +55,7 @@ class CodeSubmissionsController < ApplicationController
   end
 
   def reviews
-    @reviewers = ReviewedCodeMetrics.find_by_sql("select distinct(user) from reviewed_code_metrics")
+    @reviewers = CodeProblems.find_by_sql("select distinct(user) from reviewed_code_metrics")
   end
 
   private
