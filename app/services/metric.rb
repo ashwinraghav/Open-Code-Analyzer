@@ -12,4 +12,8 @@ class Metric
   end
 
   attr_accessor :mean, :name, :sample_variance
+
+  def to_s
+    "#{name} Mean: #{mean}, Variance #{sample_variance}"
+  end
 end

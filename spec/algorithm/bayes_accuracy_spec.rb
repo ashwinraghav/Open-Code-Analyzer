@@ -9,9 +9,9 @@ describe "Accuracy of the Bayes Algorithm" do
       average_training_set = TrainingDataSet.new(:average)
       above_average_training_set = TrainingDataSet.new(:above_average)
 
-      below_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 1}).find_all { |r| (r.id % 2) == 0 }
-      average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 2}).find_all { |r| (r.id % 2) == 0 }
-      above_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 3}).find_all { |r| (r.id % 2) == 0 }
+      below_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 1}).find_all { |r| (r.id % 2) != 0 }
+      average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 2}).find_all { |r| (r.id % 2) != 0 }
+      above_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 3}).find_all { |r| (r.id % 2) != 0 }
 
       below_average.each { |r| below_average_training_set.add r }
       average.each { |r| average_training_set.add r }
@@ -33,28 +33,39 @@ describe "Accuracy of the Bayes Algorithm" do
     bayes.train(:average, average.metrics) unless average.blank?
     bayes.train(:above_average, above_average.metrics) unless above_average.blank?
 
-    code_submissions = ReviewedCodeSubmission.all.find_all { |r| (r.id % 2) != 0 }
+    code_submissions = ReviewedCodeSubmission.all.find_all { |r| (r.id % 2) == 0 }
 
     h = {1 => "below_average", 2 => "average", 3 => "above_average"}
-    actual_predicted = code_submissions.inject([]) do |result, code_submission|
+    rankings = code_submissions.inject([]) do |result, code_submission|
       metricities = {
               "number_of_classes" => code_submission.number_of_classes,
               "number_of_methods" => code_submission.number_of_methods,
               "lines_of_code" => code_submission.lines_of_code,
               "total_cyclomatic_complexity" => code_submission.total_cyclomatic_complexity,
               "max_cyclomatic_complexity" => code_submission.max_cyclomatic_complexity }
-      prediction = bayes.nostradamus(metricities).sort_by { |key, value| value }.last.first
+      prediction = bayes.nostradamus(metricities).sort_by { |key, value| value * -1  }.first.first
 
-      result << [prediction, h[code_submission.rating]]
+      result << [prediction, h[code_submission.rating], code_submission, bayes.nostradamus(metricities)]
       result
     end
 
-    matches = actual_predicted.find_all { |value| value[0].to_s.eql? value[1] }
-    actual_predicted.each do |ap|
-      correct = ap[0].to_s.eql? ap[1]
-      puts "Predicted: #{ap[0]} | Actual: #{ap[1]} #{correct}"
+    matches = rankings.find_all { |value| value[0].to_s.eql? value[1] }
+    rankings.each do |ranking|
+      correct = ranking[0].to_s.eql? ranking[1]
+      #puts "Predicted: #{ranking[0]} | Actual: #{ranking[1]} #{correct}"
     end
     puts "Correct: #{matches.size} of #{code_submissions.size}"
+
+    (rankings - matches).each do |entry|
+      puts "P: #{entry[0]} A: #{entry[1]} # classes: #{entry[2].number_of_classes} # methods: #{entry[2].number_of_methods} lines of code: #{entry[2].lines_of_code} total cc: #{entry[2].total_cyclomatic_complexity} max cc: #{entry[2].max_cyclomatic_complexity} b:#{entry[3][:below_average]} a:#{entry[3][:average]} aa: #{entry[3][:above_average]}"
+    end
+
+    bayes.training_data.each_pair do |key, value|
+      puts "#{key} =>"
+      value.each_pair do |k,v|
+        puts "\t#{v}"
+      end
+    end
 
 
   end
