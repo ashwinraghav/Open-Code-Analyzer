@@ -33,7 +33,7 @@ describe "Accuracy of the Bayes Algorithm" do
     bayes.train(:average, average.metrics) unless average.blank?
     bayes.train(:above_average, above_average.metrics) unless above_average.blank?
 
-    code_submissions = ReviewedCodeSubmission.all.find_all { |r| (r.id % 2) == 0 }
+    code_submissions = ReviewedCodeSubmission.all.find_all { |r| (r.problem == "Mars Rover") && (r.id % 2) == 0 }
 
     h = {1 => "below_average", 2 => "average", 3 => "above_average"}
     rankings = code_submissions.inject([]) do |result, code_submission|
