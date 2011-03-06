@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe "Accuracy of the Bayes Algorithm" do
   it "should have some degree of accuracy" do
-   load_all_data_in 
-   problem = "Mars Rover"
-   training_sets = create_training_sets(problem)
+    load_all_code_submissions 
+    problem = "Mars Rover"
+    training_sets = create_training_sets(problem)
 
-   %w{ average below_average above_average }.each do |category|
-     metrics = training_sets[category].metrics
-     load_data(metrics,category, problem) unless metrics.blank?
-   end
+    %w{ average below_average above_average }.each do |category|
+      metrics = training_sets[category].metrics
+      load_data(metrics,category, problem) unless metrics.blank?
+    end
 
-   below_average = CodeProblems.find(:all, :conditions => {:category => "below_average", :problem => "Mars Rover"}).first
-   average = CodeProblems.find(:all, :conditions => {:category => "average", :problem => "Mars Rover"}).first
-   above_average = CodeProblems.find(:all, :conditions => {:category => "above_average", :problem => "Mars Rover"}).first
+   below_average = CodeProblems.find(:all, :conditions => {:category => "below_average", :problem => problem}).first
+   average = CodeProblems.find(:all, :conditions => {:category => "average", :problem => problem}).first
+   above_average = CodeProblems.find(:all, :conditions => {:category => "above_average", :problem => problem}).first
 
    bayes = create_and_train_bayes_from(below_average, average, above_average)
 
@@ -22,9 +22,9 @@ describe "Accuracy of the Bayes Algorithm" do
    h = {1 => "below_average", 2 => "average", 3 => "above_average"}
    rankings = code_submissions.inject([]) do |result, code_submission|
      initial_prediction = bayes.nostradamus(code_submission.metrics)
-     initial_prediction[:above_average] = initial_prediction[:above_average] * (code_submissions.find_all { |c| c.rating == 3 }.size.to_f / code_submissions.size)
-     initial_prediction[:average] = initial_prediction[:average] * (code_submissions.find_all { |c| c.rating == 2 }.size.to_f / code_submissions.size)
-     initial_prediction[:below_average] = initial_prediction[:below_average] * (code_submissions.find_all { |c| c.rating == 1 }.size.to_f / code_submissions.size)
+     initial_prediction[:above_average] *=  (code_submissions.find_all { |c| c.rating == 3 }.size.to_f / code_submissions.size)
+     initial_prediction[:average] *=  (code_submissions.find_all { |c| c.rating == 2 }.size.to_f / code_submissions.size)
+     initial_prediction[:below_average] *= (code_submissions.find_all { |c| c.rating == 1 }.size.to_f / code_submissions.size)
      prediction = initial_prediction.sort_by { |key, value| value * -1  }.first.first
 
      result << [prediction, h[code_submission.rating], code_submission, initial_prediction]
@@ -64,7 +64,7 @@ describe "Accuracy of the Bayes Algorithm" do
     code_problem.save
   end
 
-  def load_all_data_in
+  def load_all_code_submissions
     mars_rover_file = CSV.read('db/cleaned_up_mars_rover_seed_data.csv')
     mars_rover_file.shift
     mars_rover_file.shift
