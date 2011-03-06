@@ -28,7 +28,10 @@ describe "Accuracy of the Bayes Algorithm" do
     average = CodeProblems.find(:all, :conditions => {:category => "average", :problem => "Mars Rover"}).first
     above_average = CodeProblems.find(:all, :conditions => {:category => "above_average", :problem => "Mars Rover"}).first
 
-    bayes = create_and_train_bayes_from(below_average, average, above_average)
+    bayes = Bayes.new
+    bayes.train(:below_average, below_average.metrics) unless below_average.blank?
+    bayes.train(:average, average.metrics) unless average.blank?
+    bayes.train(:above_average, above_average.metrics) unless above_average.blank?
 
     code_submissions = ReviewedCodeSubmission.all.find_all { |r| (r.id % 2) == 0 }
 
@@ -41,9 +44,11 @@ describe "Accuracy of the Bayes Algorithm" do
               "total_cyclomatic_complexity" => code_submission.total_cyclomatic_complexity,
               "max_cyclomatic_complexity" => code_submission.max_cyclomatic_complexity }
       initial_prediction = bayes.nostradamus(metricities)
-      initial_prediction[:above_average] = initial_prediction[:above_average] * (code_submissions.find_all { |c| c.rating == 3 }.size.to_f / code_submissions.size)
-      initial_prediction[:average] = initial_prediction[:average] * (code_submissions.find_all { |c| c.rating == 2 }.size.to_f / code_submissions.size)
-      initial_prediction[:below_average] = initial_prediction[:below_average] * (code_submissions.find_all { |c| c.rating == 1 }.size.to_f / code_submissions.size)
+      above_average_size = code_submissions.find_all { |c| c.rating == 3 }.size
+      initial_prediction[:above_average] = initial_prediction[:above_average] * (above_average_size / code_submissions.size)
+      initial_prediction[:average] = initial_prediction[:average] * (code_submissions.find_all { |c| c.rating == 2 }.size / code_submissions.size)
+      initial_prediction[:below_average] = initial_prediction[:below_average] * (code_submissions.find_all { |c| c.rating == 1 }.size / code_submissions.size)
+      raise initial_prediction.inspect
       prediction = initial_prediction.sort_by { |key, value| value * -1  }.first.first
 
       result << [prediction, h[code_submission.rating], code_submission, bayes.nostradamus(metricities)]
@@ -103,14 +108,6 @@ describe "Accuracy of the Bayes Algorithm" do
                                            :problem                      => "Mars Rover"})
       metrics.save!
     end
-  end
-  
-  def create_and_train_bayes_from(below_average, average, above_average)
-    bayes = Bayes.new
-    bayes.train(:below_average, below_average.metrics) unless below_average.blank?
-    bayes.train(:average, average.metrics) unless average.blank?
-    bayes.train(:above_average, above_average.metrics) unless above_average.blank?
-    bayes
   end
 
 
