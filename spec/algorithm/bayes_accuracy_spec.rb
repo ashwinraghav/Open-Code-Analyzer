@@ -3,28 +3,15 @@ require 'spec_helper'
 describe "Accuracy of the Bayes Algorithm" do
   it "should have some degree of accuracy" do
    load_all_data_in 
+   problem = "Mars Rover"
+   training_sets = create_training_sets(problem)
 
-    ["Mars Rover"].each do |problem|
-      below_average_training_set = TrainingDataSet.new(:below_average)
-      average_training_set = TrainingDataSet.new(:average)
-      above_average_training_set = TrainingDataSet.new(:above_average)
+   %w{ average below_average above_average }.each do |category|
+     metrics = training_sets[category].metrics
+     load_data(metrics,category, problem) unless metrics.blank?
+   end
 
-      below_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 1}).find_all { |r| (r.id % 2) != 0 }
-      average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 2}).find_all { |r| (r.id % 2) != 0 }
-      above_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 3}).find_all { |r| (r.id % 2) != 0 }
-
-      below_average.each { |r| below_average_training_set.add r }
-      average.each { |r| average_training_set.add r }
-      above_average.each { |r| above_average_training_set.add r }
-      training_sets = {"average" => average_training_set, "below_average" => below_average_training_set, "above_average" => above_average_training_set}
-
-      %w{ average below_average above_average }.each do |category|
-        metrics = training_sets[category].metrics
-        load_data(metrics,category, problem) unless metrics.blank?
-      end
-    end
-
-    below_average = CodeProblems.find(:all, :conditions => {:category => "below_average", :problem => "Mars Rover"}).first
+   below_average = CodeProblems.find(:all, :conditions => {:category => "below_average", :problem => "Mars Rover"}).first
     average = CodeProblems.find(:all, :conditions => {:category => "average", :problem => "Mars Rover"}).first
     above_average = CodeProblems.find(:all, :conditions => {:category => "above_average", :problem => "Mars Rover"}).first
 
@@ -112,6 +99,22 @@ describe "Accuracy of the Bayes Algorithm" do
     bayes.train(:above_average, above_average.metrics) unless above_average.blank?
     bayes
   end
+
+  def create_training_sets(problem)
+    below_average_training_set = TrainingDataSet.new(:below_average)
+    average_training_set = TrainingDataSet.new(:average)
+    above_average_training_set = TrainingDataSet.new(:above_average)
+
+    below_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 1}).find_all { |r| (r.id % 2) != 0 }
+    average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 2}).find_all { |r| (r.id % 2) != 0 }
+    above_average = ReviewedCodeSubmission.find(:all, :conditions => {:problem => problem, :rating => 3}).find_all { |r| (r.id % 2) != 0 }
+
+    below_average.each { |r| below_average_training_set.add r }
+    average.each { |r| average_training_set.add r }
+    above_average.each { |r| above_average_training_set.add r }
+    {"average" => average_training_set, "below_average" => below_average_training_set, "above_average" => above_average_training_set}
+  end
+
 
 
 end
