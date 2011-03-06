@@ -26,5 +26,4 @@ class CodeSubmission < ActiveRecord::Base
   def extracted_folder
     DIRECTORY + id.to_s
   end
-
 end
